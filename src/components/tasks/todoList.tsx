@@ -15,10 +15,22 @@ import { Button } from "../ui/button";
 import Modal from "../Modal/UpdateTaskModal";
 import DeleteModal from "../Modal/DeleteModal";
 import { Checkbox } from "../ui/checkbox";
+import { Badge } from "../ui/badge";
+import { Trash2 } from "lucide-react";
+import graphQLClients from "@/lib/graphqlClient";
+import { GetTaskQueryDocument } from "@/generated/graphql";
+import { useQuery } from "@tanstack/react-query";
 
 export default function TodoList() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["alltasks"],
+    queryFn: async () => {
+      
+      return await graphQLClients.request(GetTaskQueryDocument);
+    },
+  });
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -35,6 +47,7 @@ export default function TodoList() {
         <TableHeader>
           <TableRow className="bg-zinc-300">
             <TableHead>Tasks</TableHead>
+            <TableHead>Description</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">action</TableHead>
             <TableHead>Checkbox</TableHead>
@@ -42,15 +55,16 @@ export default function TodoList() {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell className="font-medium">getting food</TableCell>
-            <TableCell>completed</TableCell>
+            <TableCell className="font-medium">New Task</TableCell>
+            <TableCell className="font-medium">Getting food</TableCell>
+            <TableCell><Badge  className="bg-green-400" variant="outline">completed</Badge></TableCell>
             <TableCell className="text-right">
               <div className="gap-2">
-                <Button onClick={handleModalOpen} className="hover:bg-gray-500">
+                <Button onClick={handleModalOpen} className="hover:bg-gray-500 py-1 px-1">
                   <Pencil />
                 </Button>
-                <Button className="bg-red-500 hover:bg-gray-500 ml-2">
-                  <BadgeX />
+                <Button  onClick={handleDialogOpen} className="bg-red-500 hover:bg-gray-500 ml-2 py-1 px-1">
+                <Trash2 />
                 </Button>
                 <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />
               </div>
@@ -58,18 +72,19 @@ export default function TodoList() {
             <TableCell className="pl-8"><Checkbox /></TableCell>
           </TableRow>
           <TableRow>
+            <TableCell className="font-medium">Gym</TableCell>
             <TableCell className="font-medium">Working out</TableCell>
-            <TableCell>pending</TableCell>
+            <TableCell><Badge className="bg-red-400" variant="outline">Pending</Badge></TableCell>
             <TableCell className="text-right">
               <div className="gap-2">
-                <Button className="hover:bg-gray-500">
+                <Button onClick={handleModalOpen} className="hover:bg-gray-500 py-1 px-1">
                   <Pencil />
                 </Button>
                 <Button
                   onClick={handleDialogOpen}
-                  className="bg-red-500 hover:bg-gray-500 ml-2"
+                  className="bg-red-500 hover:bg-gray-500 ml-2 py-1 px-1"
                 >
-                  <BadgeX />
+                  <Trash2 />
                 </Button>
                 <DeleteModal
                   dialogOpen={dialogOpen}

@@ -13,7 +13,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 }) => {
   return (
     <div className={`modal ${dialogOpen ? "block" : "hidden"}`}>
-      <div className="flex justify-center items-center absolute bg-slate-500">
+      <div className="flex left-[37.5%] items-center absolute bg-slate-500">
         <Card className="flex flex-col justify-center mt-4 w-1/4 h-55 fixed top-[31%]">
           <div className="flex justify-end">
             <Button

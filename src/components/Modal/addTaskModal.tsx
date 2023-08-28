@@ -26,14 +26,21 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
             <CardTitle className="mb-5">Add a task</CardTitle>
             <div className="flex justify-center items-center">
               <input
-                className="text-10ml w-64 pl-12 border border-black-500 rounded-md"
+                className="text-10ml w-64 h-8 pl-8 border border-black-500 rounded-md"
                 type="text"
                 placeholder="Enter a task"
               />
             </div>
+            <div className="flex justify-center items-center">
+              <input
+                className="text-10ml w-64 h-8 pl-8 border border-black-500 rounded-md"
+                type="text"
+                placeholder="Enter a description"
+              />
+            </div>
           </CardHeader>
           <CardFooter className="flex justify-center">
-            <Button className="hover:bg-gray-500">Submit</Button>
+            <Button className="hover:bg-gray-500">Add</Button>
           </CardFooter>
         </Card>
       </div>

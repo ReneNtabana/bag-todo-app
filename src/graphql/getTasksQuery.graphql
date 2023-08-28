@@ -1,0 +1,8 @@
+query GetTaskQuery {
+  Tasks {
+    id
+    tasks
+    description
+    status
+  }
+}

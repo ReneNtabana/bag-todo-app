@@ -10,7 +10,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
   return (
     <div className={`modal ${modalOpen ? "block" : "hidden"}`}>
-      <div className="flex justify-center items-center absolute bg-slate-500">
+      <div className="flex left-[37.5%] items-center absolute bg-slate-500">
         <Card className="flex flex-col justify-center mt-20 w-1/4 h-55 fixed">
           <div className="flex justify-end">
             <Button
@@ -26,9 +26,16 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
             </CardTitle>
             <div className="flex justify-center items-center">
               <input
-                className="text-10ml w-64 pl-12 border border-black-500 rounded-md"
+                className="text-10ml w-64 h-8 pl-8 border border-black-500 rounded-md"
                 type="text"
                 placeholder="Update task"
+              />
+            </div>
+            <div className="flex justify-center items-center">
+              <input
+                className="text-10ml w-64 h-8 pl-8 border border-black-500 rounded-md"
+                type="text"
+                placeholder="Update description"
               />
             </div>
           </CardHeader>
