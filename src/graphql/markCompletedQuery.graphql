@@ -1,0 +1,7 @@
+mutation MarkOneTaskAsComplete($id: uuid!, $completed: String!) {
+  update_Tasks_by_pk(pk_columns: { id: $id }, _set: { status: $completed }) {
+    id
+    status
+    tasks
+  }
+}

@@ -1,0 +1,8 @@
+mutation insert_single_Task($description: String!, $tasks: String!, $status:Boolean) {
+  insert_Tasks_one(object: { tasks:$tasks, description:$description }) {
+    id
+    tasks
+    description
+    status
+  }
+}

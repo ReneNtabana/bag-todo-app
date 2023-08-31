@@ -1,8 +1,8 @@
-import SideNavbar from "@/components/tasks/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Providers from "@/lib/provider";
+import SideNavbar from "../components/tasks/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
       <Providers>
         <body className={inter.className}>
           <SideNavbar />
-          {children}
+          <main>{children}</main>
         </body>
       </Providers>
     </html>

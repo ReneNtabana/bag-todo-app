@@ -1,0 +1,8 @@
+mutation DeleteTask($id: uuid!) {
+  delete_Tasks_by_pk(id: $id) {
+    id
+    tasks
+    description
+    status
+  }
+}

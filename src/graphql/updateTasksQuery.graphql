@@ -1,0 +1,11 @@
+mutation UpdateTask($id: uuid!, $task: String!, $description: String!) {
+  update_Tasks_by_pk(
+    pk_columns: { id: $id }
+    _set: { tasks: $task, description: $description }
+  ) {
+    id
+    tasks
+    description
+    status
+  }
+}

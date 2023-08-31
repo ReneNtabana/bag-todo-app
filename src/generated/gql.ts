@@ -13,7 +13,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "mutation insert_single_Task($description: String!, $tasks: String!, $status: Boolean) {\n  insert_Tasks_one(object: {tasks: $tasks, description: $description}) {\n    id\n    tasks\n    description\n    status\n  }\n}": types.Insert_Single_TaskDocument,
+    "mutation DeleteTask($id: uuid!) {\n  delete_Tasks_by_pk(id: $id) {\n    id\n    tasks\n    description\n    status\n  }\n}": types.DeleteTaskDocument,
     "query GetTaskQuery {\n  Tasks {\n    id\n    tasks\n    description\n    status\n  }\n}": types.GetTaskQueryDocument,
+    "mutation MarkOneTaskAsComplete($id: uuid!, $completed: String!) {\n  update_Tasks_by_pk(pk_columns: {id: $id}, _set: {status: $completed}) {\n    id\n    status\n    tasks\n  }\n}": types.MarkOneTaskAsCompleteDocument,
+    "mutation UpdateTask($id: uuid!, $task: String!, $description: String!) {\n  update_Tasks_by_pk(\n    pk_columns: {id: $id}\n    _set: {tasks: $task, description: $description}\n  ) {\n    id\n    tasks\n    description\n    status\n  }\n}": types.UpdateTaskDocument,
 };
 
 /**
@@ -33,7 +37,23 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "mutation insert_single_Task($description: String!, $tasks: String!, $status: Boolean) {\n  insert_Tasks_one(object: {tasks: $tasks, description: $description}) {\n    id\n    tasks\n    description\n    status\n  }\n}"): (typeof documents)["mutation insert_single_Task($description: String!, $tasks: String!, $status: Boolean) {\n  insert_Tasks_one(object: {tasks: $tasks, description: $description}) {\n    id\n    tasks\n    description\n    status\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation DeleteTask($id: uuid!) {\n  delete_Tasks_by_pk(id: $id) {\n    id\n    tasks\n    description\n    status\n  }\n}"): (typeof documents)["mutation DeleteTask($id: uuid!) {\n  delete_Tasks_by_pk(id: $id) {\n    id\n    tasks\n    description\n    status\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "query GetTaskQuery {\n  Tasks {\n    id\n    tasks\n    description\n    status\n  }\n}"): (typeof documents)["query GetTaskQuery {\n  Tasks {\n    id\n    tasks\n    description\n    status\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation MarkOneTaskAsComplete($id: uuid!, $completed: String!) {\n  update_Tasks_by_pk(pk_columns: {id: $id}, _set: {status: $completed}) {\n    id\n    status\n    tasks\n  }\n}"): (typeof documents)["mutation MarkOneTaskAsComplete($id: uuid!, $completed: String!) {\n  update_Tasks_by_pk(pk_columns: {id: $id}, _set: {status: $completed}) {\n    id\n    status\n    tasks\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation UpdateTask($id: uuid!, $task: String!, $description: String!) {\n  update_Tasks_by_pk(\n    pk_columns: {id: $id}\n    _set: {tasks: $task, description: $description}\n  ) {\n    id\n    tasks\n    description\n    status\n  }\n}"): (typeof documents)["mutation UpdateTask($id: uuid!, $task: String!, $description: String!) {\n  update_Tasks_by_pk(\n    pk_columns: {id: $id}\n    _set: {tasks: $task, description: $description}\n  ) {\n    id\n    tasks\n    description\n    status\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

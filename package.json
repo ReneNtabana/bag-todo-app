@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dotenv": "^16.3.1",
+    "encoding": "^0.1.13",
     "env-cmd": "^10.1.0",
     "eslint-config-next": "13.4.19",
     "graphql": "^16.8.0",
@@ -32,10 +33,12 @@
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.4",
+    "react-loader-spinner": "^5.4.5",
     "react-query": "^3.39.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
-    "tailwindcss-animate": "^1.0.6"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
