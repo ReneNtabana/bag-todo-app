@@ -1,24 +1,29 @@
-import SideNavbar from '@/components/tasks/navbar'
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import Providers from "@/lib/provider";
+import SideNavbar from "../components/tasks/Navbar";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Todo App',
-  description: 'simple todo app to learn next',
-}
+  title: "Todo App",
+  description: "simple todo app to learn next",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <SideNavbar />
-      <body className={inter.className}>{children}</body>
+      <Providers>
+        <body className={inter.className}>
+          <SideNavbar />
+          <main>{children}</main>
+        </body>
+      </Providers>
     </html>
-  )
+  );
 }
