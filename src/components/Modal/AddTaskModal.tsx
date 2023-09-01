@@ -1,12 +1,10 @@
-"use client";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
-import graphQLClients from "@/lib/graphqlClient";
-import { Insert_Single_TaskDocument } from "@/generated/graphql";
 import { useMutation } from "@tanstack/react-query";
-
+import { createTask } from "@/services/CreateTask";
+import { NewTask } from "@/lib/Types";
 
 interface ModalProps {
   modalOpen: boolean;
@@ -14,23 +12,16 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
-  const { mutate } = useMutation(async (variables: any) => {
-    const result = await graphQLClients.request(
-      Insert_Single_TaskDocument,
-      variables
-    );
+  const { mutate, isLoading } = useMutation(async (variables: NewTask) => {
+    const result = await createTask(variables);
     return result;
   });
 
   const { register, handleSubmit, reset } = useForm();
 
-  const handleSave = async (data: any) => {
+  const handleSave = async (data: NewTask) => {
     try {
-      const variables = {
-        tasks: `${data.tasks}`,
-        description: `${data.description}`,
-      };
-      mutate(variables);
+      mutate(data);
       setModalOpen(false);
       reset();
     } catch (error) {
@@ -79,6 +70,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
               <Button
                 type="submit"
                 className="w-2/4 bg-black text-white p-2 rounded-md hover:bg-gray-500"
+                disabled={isLoading}
               >
                 Add
               </Button>
@@ -88,7 +80,6 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
       </div>
     </div>
   );
-}
-
+};
 
 export default Modal;

@@ -17,15 +17,15 @@ import Modal from "../Modal/UpdateTaskModal";
 import DeleteModal from "../Modal/DeleteModal";
 import { Checkbox } from "../ui/checkbox";
 import { Badge } from "../ui/badge";
-import graphQLClients from "@/lib/graphqlClient";
-import { GetTaskQueryDocument,MarkOneTaskAsCompleteDocument } from "@/generated/graphql";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { FetchTask } from "@/services/FetchTask";
+import { variables } from "@/lib/Types";
 
 export default function TodoList() {
   const { data, isLoading } = useQuery({
     queryKey: ["alltasks"],
     queryFn: async () => {
-      return await graphQLClients.request(GetTaskQueryDocument);
+      return await FetchTask();
     },
   });
 
@@ -38,32 +38,27 @@ export default function TodoList() {
     updatedStates[index] = true;
     setModalOpenStates(updatedStates);
   };
-const [dialogOpenStates, setDialogOpenStates] = useState<boolean[]>(
-  data?.Tasks.map(() => false) || []
-);
+  const [dialogOpenStates, setDialogOpenStates] = useState<boolean[]>(
+    data?.Tasks.map(() => false) || []
+  );
 
   const handleDialogOpen = (index: number) => {
-    const deleteStates= [...dialogOpenStates];
-    deleteStates[index]=true;
+    const deleteStates = [...dialogOpenStates];
+    deleteStates[index] = true;
     setDialogOpenStates(deleteStates);
   };
-
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center">
         <RotatingLines
           strokeColor="grey"
           strokeWidth="5"
-          animationDuration="0.90"
+          animationDuration="0.50"
           width="50"
           visible={true}
         />
       </div>
     );
-  }
-
-  const handleCheckboxChange= () =>{
-    
   }
   return (
     <div>
@@ -80,15 +75,13 @@ const [dialogOpenStates, setDialogOpenStates] = useState<boolean[]>(
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.Tasks.map((task, index) => (
-            <TableRow>
+          {data?.Tasks.map((task: variables, index: number) => (
+            <TableRow key={task.id}>
               <TableCell className="font-medium">{task.tasks}</TableCell>
               <TableCell className="font-medium">{task.description}</TableCell>
               <TableCell>
                 <Badge
-                  className={`bg-${
-                    task.status === "completed" ? "" : ""
-                  }`}
+                  className={`bg-${task.status === "completed" ? "" : ""}`}
                   variant="outline"
                 >
                   {task.status}
@@ -111,14 +104,13 @@ const [dialogOpenStates, setDialogOpenStates] = useState<boolean[]>(
                 </div>
               </TableCell>
               <TableCell className="pl-8">
-                <Checkbox checked={task.status === "completed"} 
-                onChange={handleCheckboxChange}/>
+                <Checkbox />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {data?.Tasks.map((task, index) => (
+      {data?.Tasks.map((task: variables, index: number) => (
         <div key={task.id}>
           <Modal
             modalOpen={modalOpenStates[index]}

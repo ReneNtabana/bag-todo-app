@@ -1,9 +1,9 @@
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
-import graphQLClients from "@/lib/graphqlClient";
-import { UpdateTaskDocument } from "@/generated/graphql";
 import { useMutation } from "@tanstack/react-query";
+import { NewTask } from "@/lib/Types";
+import { updateTask } from "@/services/UpdateTask";
 
 interface ModalProps {
   modalOpen: boolean;
@@ -13,26 +13,26 @@ interface ModalProps {
   description: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, taskId, title, description }) => {
+const Modal: React.FC<ModalProps> = ({
+  modalOpen,
+  setModalOpen,
+  taskId,
+  title,
+  description,
+}) => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       tasks: title,
       description: description,
     },
-
   });
 
-  const { mutate } = useMutation(
-    async (variables: { id: any; task: string; description: string }) => {
-      const result = await graphQLClients.request(
-        UpdateTaskDocument,
-        variables
-      );
-      return result;
-    }
-  );
+  const { mutate } = useMutation(async (variables: NewTask) => {
+    const result = await updateTask(variables);
+    return result;
+  });
 
-  const handleSave = async (data: any) => {
+  const handleSave = async (data: NewTask) => {
     try {
       const variables = {
         id: taskId,
