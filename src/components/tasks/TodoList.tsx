@@ -22,7 +22,7 @@ import { GetTaskQueryDocument,MarkOneTaskAsCompleteDocument } from "@/generated/
 import { useQuery } from "@tanstack/react-query";
 
 export default function TodoList() {
-  const { data, isLoading } = useQuery({
+  const {data, isLoading} = useQuery({
     queryKey: ["alltasks"],
     queryFn: async () => {
       return await graphQLClients.request(GetTaskQueryDocument);
@@ -47,14 +47,13 @@ const [dialogOpenStates, setDialogOpenStates] = useState<boolean[]>(
     deleteStates[index]=true;
     setDialogOpenStates(deleteStates);
   };
-
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center">
         <RotatingLines
           strokeColor="grey"
           strokeWidth="5"
-          animationDuration="0.90"
+          animationDuration="0.75"
           width="50"
           visible={true}
         />

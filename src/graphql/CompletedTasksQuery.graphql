@@ -1,0 +1,8 @@
+query GetCompletedQueries {
+  Tasks(where: { status: { _eq: "completed" } }) {
+    id
+    tasks
+    description
+    status
+  }
+}

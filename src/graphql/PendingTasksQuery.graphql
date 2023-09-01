@@ -1,0 +1,8 @@
+query GetPendingQueries {
+  Tasks(where: { status: { _eq: "pending" } }) {
+    id
+    tasks
+    description
+    status
+  }
+}
