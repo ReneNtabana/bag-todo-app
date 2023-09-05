@@ -22,7 +22,7 @@ import { FetchTask } from "@/services/FetchTask";
 import { variables } from "@/lib/Types";
 
 export default function TodoList() {
-  const { data, isLoading } = useQuery({
+  const {data, isLoading} = useQuery({
     queryKey: ["alltasks"],
     queryFn: async () => {
       return await FetchTask();
