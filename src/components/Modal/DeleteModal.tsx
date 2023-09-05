@@ -1,9 +1,8 @@
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
-import graphQLClients from "@/lib/graphqlClient";
-import { DeleteTaskDocument } from "@/generated/graphql";
 import { useMutation } from "@tanstack/react-query";
+import { deleteTask } from "@/services/DeleteTasks";
 
 interface DeleteModalProps {
   dialogOpen: boolean;
@@ -14,12 +13,12 @@ interface DeleteModalProps {
 const DeleteModal: React.FC<DeleteModalProps> = ({
   dialogOpen,
   setDialogOpen,
-  taskId
+  taskId,
 }) => {
   const { handleSubmit } = useForm();
 
-  const { mutate } = useMutation(async (variables: { id: string }) => {
-    const result = await graphQLClients.request(DeleteTaskDocument, variables);
+  const { mutate } = useMutation(async (variables: { id: any }) => {
+    const result = await deleteTask(variables.id);
     return result;
   });
 
@@ -28,9 +27,8 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       const variables = {
         id: taskId,
       };
-      await mutate(variables);
+      mutate(variables);
       setDialogOpen(false);
-      console.log("Deleted task", taskId);
     } catch (error) {
       console.error("Deletion error:", error);
     }

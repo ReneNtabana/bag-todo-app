@@ -17,15 +17,14 @@ import DeleteModal from "@/components/Modal/DeleteModal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
-import graphQLClients from "@/lib/graphqlClient";
-import { GetCompletedQueriesDocument } from "@/generated/graphql";
 import { useQuery } from "@tanstack/react-query";
-
+import { completed } from "@/services/completedTasks";
+import { variables } from "@/lib/Types";
 export default function Completed() {
   const { data, isLoading } = useQuery({
     queryKey: ["allCompletedTasks"],
     queryFn: async () => {
-      return await graphQLClients.request(GetCompletedQueriesDocument);
+      return await completed();
     },
   });
   const [dialogOpenStates, setDialogOpenStates] = useState<boolean[]>(
@@ -68,8 +67,8 @@ export default function Completed() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.Tasks.map((task, index) => (
-              <TableRow>
+            {data?.Tasks.map((task: variables, index: number) => (
+              <TableRow key={task.id}>
                 <TableCell className="font-medium">{task.tasks}</TableCell>
                 <TableCell className="font-medium">
                   {task.description}
@@ -99,7 +98,7 @@ export default function Completed() {
             ))}
           </TableBody>
         </Table>
-        {data?.Tasks.map((task, index) => (
+        {data?.Tasks.map((task: variables, index: number) => (
           <div key={task.id}>
             <DeleteModal
               dialogOpen={dialogOpenStates[index]}
