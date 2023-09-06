@@ -21,7 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import { variables } from "@/lib/Types";
 import { pending } from "@/services/PendingTasks";
 
-export default function Completed() {
+export default function Pending() {
   const { data, isLoading } = useQuery({
     queryKey: ["allPendingTasks"],
     queryFn: async () => {
@@ -44,7 +44,7 @@ export default function Completed() {
           strokeColor="grey"
           strokeWidth="5"
           animationDuration="0.75"
-          width="50"
+          width="40"
           visible={true}
         />
       </div>

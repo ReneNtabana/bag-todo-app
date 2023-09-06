@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { Button } from "../ui/button";
+import { RotatingLines } from "react-loader-spinner";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { createTask } from "@/services/CreateTask";
 import { NewTask } from "@/lib/Types";
+import useFetchTasks from "@/hooks/GetTasks";
+import { useToast } from "@/components/ui/use-toast";
+
 
 interface ModalProps {
   modalOpen: boolean;
@@ -12,18 +16,37 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
+   const { refetch } = useFetchTasks();
+   const { toast } = useToast();
+
   const { mutate, isLoading } = useMutation(async (variables: NewTask) => {
     const result = await createTask(variables);
     return result;
+  },
+  {
+    onSuccess:() => {
+       refetch();
+         toast({
+           title: "Successfully created the task.",
+         });
+    }
   });
 
   const { register, handleSubmit, reset } = useForm();
 
   const handleSave = async (data: NewTask) => {
+    const { tasks, description } = data;
+
+    if (!tasks || tasks.trim() === "") {
+      return;
+    }
+
+    if (!description || description.trim() === "") {
+      return;
+    }
     try {
       mutate(data);
       setModalOpen(false);
-      reset();
     } catch (error) {
       console.error("Mutation error:", error);
     }
@@ -34,6 +57,20 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen }) => {
       reset();
     }
   }, [modalOpen, reset]);
+  if (isLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="5"
+          animationDuration="0.50"
+          width="40"
+          visible={true}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`modal ${modalOpen ? "flex" : "hidden"}`}>
       <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
