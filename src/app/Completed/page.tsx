@@ -20,7 +20,6 @@ import { Badge } from "../../components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { completed } from "@/services/completedTasks";
 import { variables } from "@/lib/Types";
-
 export default function Completed() {
   const { data, isLoading } = useQuery({
     queryKey: ["allCompletedTasks"],

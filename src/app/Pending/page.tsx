@@ -17,6 +17,7 @@ import DeleteModal from "@/components/Modal/DeleteModal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
+
 import { useQuery } from "@tanstack/react-query";
 import { variables } from "@/lib/Types";
 import { pending } from "@/services/PendingTasks";
