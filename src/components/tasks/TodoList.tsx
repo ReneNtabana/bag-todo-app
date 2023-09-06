@@ -20,9 +20,13 @@ import { Badge } from "../ui/badge";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { FetchTask } from "@/services/FetchTask";
 import { variables } from "@/lib/Types";
+import { updateStatus } from "@/services/Status";
+import useFetchTasks from "@/hooks/GetTasks";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function TodoList() {
-  const {data, isLoading} = useQuery({
+  const [taskId, setTaskId] = useState("");
+  const { data, isLoading } = useQuery({
     queryKey: ["alltasks"],
     queryFn: async () => {
       return await FetchTask();
@@ -32,6 +36,9 @@ export default function TodoList() {
   const [modalOpenStates, setModalOpenStates] = useState<boolean[]>(
     data?.Tasks.map(() => false) || []
   );
+
+  const { refetch } = useFetchTasks();
+  const { toast } = useToast();
 
   const handleModalOpen = (index: number) => {
     const updatedStates = [...modalOpenStates];
@@ -47,6 +54,39 @@ export default function TodoList() {
     deleteStates[index] = true;
     setDialogOpenStates(deleteStates);
   };
+
+  const { mutate, isLoading: mutateisLoading } = useMutation(
+    async (id: any) => {
+      const result = await updateStatus(id);
+      return result;
+    },
+    {
+      onSuccess: () => {
+        refetch();
+        toast({
+          title: "Succesfully updated the status.",
+        });
+      },
+    }
+  );
+
+  const handleChange = (e: any) => {
+    console.log(e.target.dataset);
+    setTaskId(e.target.dataset.taskid);
+    if (e.target.dataset.ischecked === "true") {
+      const variable = {
+        id: e.target.dataset.taskid,
+        completed: "pending",
+      };
+      mutate(variable);
+    } else {
+      const variable = {
+        id: e.target.dataset.taskid,
+        completed: "completed",
+      };
+      mutate(variable);
+    }
+  };
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center">
@@ -54,7 +94,7 @@ export default function TodoList() {
           strokeColor="grey"
           strokeWidth="5"
           animationDuration="0.50"
-          width="50"
+          width="40"
           visible={true}
         />
       </div>
@@ -104,7 +144,23 @@ export default function TodoList() {
                 </div>
               </TableCell>
               <TableCell className="pl-8">
-                <Checkbox />
+                {" "}
+                {mutateisLoading && task.id === taskId ? (
+                  <RotatingLines
+                    strokeColor="grey"
+                    strokeWidth="5"
+                    animationDuration="0.50"
+                    width="20"
+                    visible={true}
+                  />
+                ) : (
+                  <Checkbox
+                    data-taskid={task.id}
+                    data-ischecked={task.status === "completed"}
+                    onClick={handleChange}
+                    checked={task.status === "completed"}
+                  />
+                )}
               </TableCell>
             </TableRow>
           ))}

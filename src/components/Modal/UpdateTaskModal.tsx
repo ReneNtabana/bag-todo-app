@@ -1,9 +1,12 @@
 import { Button } from "../ui/button";
+import { RotatingLines } from "react-loader-spinner";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { NewTask } from "@/lib/Types";
 import { updateTask } from "@/services/UpdateTask";
+import useFetchTasks from "@/hooks/GetTasks";
+import { useToast } from "../ui/use-toast";
 
 interface ModalProps {
   modalOpen: boolean;
@@ -27,12 +30,32 @@ const Modal: React.FC<ModalProps> = ({
     },
   });
 
-  const { mutate } = useMutation(async (variables: NewTask) => {
+  const { refetch } = useFetchTasks();
+  const { toast } = useToast();
+
+  const { mutate, isLoading } = useMutation(async (variables: NewTask) => {
     const result = await updateTask(variables);
     return result;
+  },
+  {
+    onSuccess: () =>{
+      refetch();
+      toast({
+        title: "Successfully updated the task.",
+      });
+    }
   });
 
   const handleSave = async (data: NewTask) => {
+    const { tasks, description } = data;
+
+    if (!tasks || tasks.trim() === "") {
+      return;
+    }
+
+    if (!description || description.trim() === "") {
+      return;
+    }
     try {
       const variables = {
         id: taskId,
@@ -45,6 +68,20 @@ const Modal: React.FC<ModalProps> = ({
       console.error("Mutation error:", error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="5"
+          animationDuration="0.80"
+          width="40"
+          visible={true}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={`modal ${modalOpen ? "flex" : "hidden"}`}>
@@ -82,6 +119,7 @@ const Modal: React.FC<ModalProps> = ({
               <button
                 type="submit"
                 className="w-2/4 py-2 text-white bg-black rounded-md hover:bg-gray-500"
+                disabled={isLoading}
               >
                 Update
               </button>

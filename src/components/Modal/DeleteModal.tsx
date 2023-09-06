@@ -1,8 +1,11 @@
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { RotatingLines } from "react-loader-spinner";
 import { useMutation } from "@tanstack/react-query";
 import { deleteTask } from "@/services/DeleteTasks";
+import useFetchTasks from "@/hooks/GetTasks";
+import { useToast } from "@/components/ui/use-toast";
 
 interface DeleteModalProps {
   dialogOpen: boolean;
@@ -16,11 +19,23 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   taskId,
 }) => {
   const { handleSubmit } = useForm();
+  const { toast } = useToast();
+  const { refetch } = useFetchTasks();
 
-  const { mutate } = useMutation(async (variables: { id: any }) => {
-    const result = await deleteTask(variables.id);
-    return result;
-  });
+  const { mutate, isLoading } = useMutation(
+    async (variables: { id: any }) => {
+      const result = await deleteTask(variables.id);
+      return result;
+    },
+    {
+      onSuccess: () => {
+        refetch();
+        toast({
+          title: "Successfully deleted the task.",
+        });
+      },
+    }
+  );
 
   const handleDelete = async () => {
     try {
@@ -33,6 +48,20 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       console.error("Deletion error:", error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="5"
+          animationDuration="0.50"
+          width="40"
+          visible={true}
+        />
+      </div>
+    );
+  }
   return (
     <div className={`modal ${dialogOpen ? "flex" : "hidden"}`}>
       <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-30">
