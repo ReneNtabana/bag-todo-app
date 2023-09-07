@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [ develop ]
+    branches: [ setting-up-project ]
   pull_request:
-    branches: [ develop ]
+    branches: [ setting-up-project ]
 jobs:
   test:
     timeout-minutes: 60
@@ -13,8 +13,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Install pnpm
-      run: npm install -g pnpm
     - name: Install dependencies
       run: pnpm install
     - name: Install Playwright Browsers
