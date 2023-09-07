@@ -71,7 +71,6 @@ export default function TodoList() {
   );
 
   const handleChange = (e: any) => {
-    console.log(e.target.dataset);
     setTaskId(e.target.dataset.taskid);
     if (e.target.dataset.ischecked === "true") {
       const variable = {
@@ -101,71 +100,75 @@ export default function TodoList() {
     );
   }
   return (
-    <div>
+    <div className="w-3/4 flex flex-col justify-center items-center">
       <div>Todo List</div>
-      <Table>
-        <TableCaption>A list of your tasks</TableCaption>
-        <TableHeader>
-          <TableRow className="bg-zinc-300">
-            <TableHead>Tasks</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">action</TableHead>
-            <TableHead>Checkbox</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data?.Tasks.map((task: variables, index: number) => (
-            <TableRow key={task.id}>
-              <TableCell className="font-medium">{task.tasks}</TableCell>
-              <TableCell className="font-medium">{task.description}</TableCell>
-              <TableCell>
-                <Badge
-                  className={`bg-${task.status === "completed" ? "" : ""}`}
-                  variant="outline"
-                >
-                  {task.status}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                <div className="flex items-center gap-2">
-                  <Button
-                    onClick={() => handleModalOpen(index)}
-                    className="hover:bg-gray-500 py-1 px-1"
-                  >
-                    <Pencil />
-                  </Button>
-                  <Button
-                    onClick={() => handleDialogOpen(index)}
-                    className="bg-red-500 hover:bg-gray-500 py-1 px-1"
-                  >
-                    <Trash2 />
-                  </Button>
-                </div>
-              </TableCell>
-              <TableCell className="pl-8">
-                {" "}
-                {mutateisLoading && task.id === taskId ? (
-                  <RotatingLines
-                    strokeColor="grey"
-                    strokeWidth="5"
-                    animationDuration="0.50"
-                    width="20"
-                    visible={true}
-                  />
-                ) : (
-                  <Checkbox
-                    data-taskid={task.id}
-                    data-ischecked={task.status === "completed"}
-                    onClick={handleChange}
-                    checked={task.status === "completed"}
-                  />
-                )}
-              </TableCell>
+      <div className="w-full flex flex-col items-center ml-20">
+        <Table>
+          <TableCaption>A list of your tasks</TableCaption>
+          <TableHeader>
+            <TableRow className="bg-zinc-300">
+              <TableHead>Tasks</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-center">action</TableHead>
+              <TableHead>Checkbox</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {data?.Tasks.map((task: variables, index: number) => (
+              <TableRow key={task.id}>
+                <TableCell className="font-medium">{task.tasks}</TableCell>
+                <TableCell className="font-medium">
+                  {task.description}
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    className={`bg-${task.status === "completed" ? "" : ""}`}
+                    variant="outline"
+                  >
+                    {task.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => handleModalOpen(index)}
+                      className="hover:bg-gray-500 py-1 px-1"
+                    >
+                      <Pencil />
+                    </Button>
+                    <Button
+                      onClick={() => handleDialogOpen(index)}
+                      className="bg-red-500 hover:bg-gray-500 py-1 px-1"
+                    >
+                      <Trash2 />
+                    </Button>
+                  </div>
+                </TableCell>
+                <TableCell className="pl-8">
+                  {" "}
+                  {mutateisLoading && task.id === taskId ? (
+                    <RotatingLines
+                      strokeColor="grey"
+                      strokeWidth="5"
+                      animationDuration="0.50"
+                      width="20"
+                      visible={true}
+                    />
+                  ) : (
+                    <Checkbox
+                      data-taskid={task.id}
+                      data-ischecked={task.status === "completed"}
+                      onClick={handleChange}
+                      checked={task.status === "completed"}
+                    />
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       {data?.Tasks.map((task: variables, index: number) => (
         <div key={task.id}>
           <Modal

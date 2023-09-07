@@ -1,5 +1,3 @@
-
-
 export async function FetchTask() {
   try {
     const response = await fetch(`/api/tasks/fetch`, {
