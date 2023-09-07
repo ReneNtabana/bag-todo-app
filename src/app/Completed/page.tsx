@@ -17,10 +17,15 @@ import DeleteModal from "@/components/Modal/DeleteModal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { completed } from "@/services/completedTasks";
 import { variables } from "@/lib/Types";
+import { updateStatus } from "@/services/Status";
+import { useToast } from "@/components/ui/use-toast";
+import useCompletedTasks from "@/hooks/GetCompletedTasks";
+
 export default function Completed() {
+  const [taskId, setTaskId] = useState("");
   const { data, isLoading } = useQuery({
     queryKey: ["allCompletedTasks"],
     queryFn: async () => {
@@ -31,11 +36,48 @@ export default function Completed() {
     data?.Tasks.map(() => false) || []
   );
 
+  const { refetch } = useCompletedTasks();
+  const { toast } = useToast();
+
   const handleDialogOpen = (index: number) => {
     const deleteStates = [...dialogOpenStates];
     deleteStates[index] = true;
     setDialogOpenStates(deleteStates);
   };
+
+  const { mutate, isLoading: mutateisLoading } = useMutation(
+    async (id: any) => {
+      const result = await updateStatus(id);
+      return result;
+    },
+    {
+      onSuccess: () => {
+        refetch();
+        toast({
+          title: "Succesfully updated the status.",
+        });
+      },
+    }
+  );
+
+  const handleChange = (e: any) => {
+    console.log(e.target.dataset);
+    setTaskId(e.target.dataset.taskid);
+    if (e.target.dataset.ischecked === "true") {
+      const variable = {
+        id: e.target.dataset.taskid,
+        completed: "pending",
+      };
+      mutate(variable);
+    } else {
+      const variable = {
+        id: e.target.dataset.taskid,
+        completed: "completed",
+      };
+      mutate(variable);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center">
@@ -92,7 +134,23 @@ export default function Completed() {
                   </div>
                 </TableCell>
                 <TableCell className="pl-8">
-                  <Checkbox checked={task.status === "completed"} />
+                  {" "}
+                  {mutateisLoading && task.id === taskId ? (
+                    <RotatingLines
+                      strokeColor="grey"
+                      strokeWidth="5"
+                      animationDuration="0.50"
+                      width="20"
+                      visible={true}
+                    />
+                  ) : (
+                    <Checkbox
+                      data-taskid={task.id}
+                      data-ischecked={task.status === "completed"}
+                      onClick={handleChange}
+                      checked={task.status === "completed"}
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             ))}
