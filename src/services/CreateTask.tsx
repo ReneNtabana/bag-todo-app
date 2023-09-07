@@ -3,7 +3,7 @@ import { NewTask } from "@/lib/Types";
 export async function createTask(task: NewTask) {
   try {
     const response = await fetch(
-      `https://bag-todo.netlify.app//api/tasks/create`,
+      `/api/tasks/create`,
       {
         method: "POST",
         headers: {
