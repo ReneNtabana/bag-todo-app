@@ -45,6 +45,7 @@
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/client-preset": "4.1.0",
     "@graphql-codegen/introspection": "4.0.0",
+    "@playwright/test": "^1.37.1",
     "eslint": "8.47.0",
     "prettier": "3.0.2",
     "typescript": "5.1.6"
