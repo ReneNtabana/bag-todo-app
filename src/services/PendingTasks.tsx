@@ -1,7 +1,7 @@
 export async function pending() {
   try {
     const response = await fetch(
-      `https://bag-todo.netlify.app//api/tasks/pending`,
+      `/api/tasks/pending`,
       {
         method: "GET",
         headers: {

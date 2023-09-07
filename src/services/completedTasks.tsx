@@ -1,7 +1,7 @@
 export async function completed() {
   try {
     const response = await fetch(
-      `https://bag-todo.netlify.app//api/tasks/completed`,
+      `/api/tasks/completed`,
       {
         method: "GET",
         headers: {
