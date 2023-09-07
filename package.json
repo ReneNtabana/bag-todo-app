@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "env-cmd -f .env graphql-codegen --config codegen.yml"
+    "codegen": "env-cmd -f .env graphql-codegen --config codegen.yml",
+    "test:coverage": "npx nyc --reporter=lcov --reporter=text-summary pnpm test",
+    "test":  "npx playwright test --ui"
   },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
@@ -31,6 +33,7 @@
     "graphql-request": "^6.1.0",
     "lucide-react": "^0.268.0",
     "next": "13.4.19",
+    "nyc": "^15.1.0",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
