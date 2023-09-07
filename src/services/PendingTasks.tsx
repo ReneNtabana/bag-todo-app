@@ -1,11 +1,14 @@
 export async function pending() {
   try {
-    const response = await fetch(`/api/tasks/pending`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://bag-todo.netlify.app//api/tasks/pending`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { data } = await response.json();
     return data;
   } catch (error) {
