@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FetchTask } from "@/services/FetchTask";
+import { FetchTask } from "../services/FetchTask";
 
 export default function useFetchTasks(){
     return useQuery({

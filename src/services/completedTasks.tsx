@@ -1,18 +1,14 @@
+import { apiUrl } from "../lib/pathUtils";
+
 export async function completed() {
-  try {
-    const response = await fetch(
-      `/api/tasks/completed`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const { data } = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error creating new task:", error);
-    throw error;
-  }
+  const url = apiUrl("/api/tasks/completed");
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const { data } = await response.json();
+  return data;
 }
