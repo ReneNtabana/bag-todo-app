@@ -1,3 +1,4 @@
+import { apiUrl } from "../lib/pathUtils";
 
 type StatusProps = {
   id: any;
@@ -6,7 +7,9 @@ type StatusProps = {
 export async function updateStatus({ id, completed }: StatusProps) {
     console.log("===", id)
   try {
-    const response = await fetch(`/api/tasks/status`, {
+    const url = apiUrl("/api/tasks/status");
+
+    const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

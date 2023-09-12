@@ -1,15 +1,14 @@
+import { apiUrl } from "../lib/pathUtils";
+
 export async function pending() {
-  try {
-    const response = await fetch(`/api/tasks/pending`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { data } = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error creating new task:", error);
-    throw error;
-  }
+  const url = apiUrl("/api/tasks/pending");
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const { data } = await response.json();
+  return data;
 }

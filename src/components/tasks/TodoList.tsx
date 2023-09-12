@@ -18,7 +18,7 @@ import DeleteModal from "../Modal/DeleteModal";
 import { Checkbox } from "../ui/checkbox";
 import { Badge } from "../ui/badge";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { FetchTask } from "@/services/FetchTask";
+import { FetchTask } from "../../services/FetchTask";
 import { variables } from "@/lib/Types";
 import { updateStatus } from "@/services/Status";
 import useFetchTasks from "@/hooks/GetTasks";

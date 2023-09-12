@@ -1,10 +1,14 @@
+import { apiUrl } from "../lib/pathUtils";
+
 export async function deleteTask(id: any) {
   try {
-    const response = await fetch(`/api/tasks/delete`, {
+    const url = apiUrl("/api/tasks/delete");
+
+    const response = await fetch(url, {
       method: "DELETE",
-      headers:{
-        'id':id
-      }
+      headers: {
+        id: id,
+      },
     });
     const { data } = await response.json();
     return data;
