@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { deleteTask } from "@/services/DeleteTasks";
 import useFetchTasks from "@/hooks/GetTasks";
 import { useToast } from "@/components/ui/use-toast";
+import usePendingTasks from "@/hooks/GetPendingTasks";
+import useCompletedTasks from "@/hooks/GetCompletedTasks";
 
 interface DeleteModalProps {
   dialogOpen: boolean;
@@ -20,7 +22,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 }) => {
   const { handleSubmit } = useForm();
   const { toast } = useToast();
-  const { refetch } = useFetchTasks();
+  const { refetch } = (useFetchTasks(), usePendingTasks(), useCompletedTasks());
 
   const { mutate, isLoading } = useMutation(
     async (variables: { id: any }) => {
@@ -31,7 +33,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       onSuccess: () => {
         refetch();
         toast({
-          title: "Successfully deleted the task.",
+          title: "Successfully deleted the task.",    
         });
       },
     }
