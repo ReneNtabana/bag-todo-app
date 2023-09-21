@@ -61,7 +61,6 @@ export default function Completed() {
   );
 
   const handleChange = (e: any) => {
-    console.log(e.target.dataset);
     setTaskId(e.target.dataset.taskid);
     if (e.target.dataset.ischecked === "true") {
       const variable = {
