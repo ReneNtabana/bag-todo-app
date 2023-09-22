@@ -1,5 +1,5 @@
 import { server } from "../src/mocks/server";
-import { completed } from "../src/services/completedTasks";
+import { completed } from "../src/services/CompletedTasks";
 import { describe, it, expectTypeOf } from "vitest";
 
 describe("get all completed tasks", () => {

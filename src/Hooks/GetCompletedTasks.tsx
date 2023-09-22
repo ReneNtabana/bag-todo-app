@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { completed } from "@/services/completedTasks";
+import { completed } from "@/services/CompletedTasks";
 
 export default function useCompletedTasks() {
   return useQuery({

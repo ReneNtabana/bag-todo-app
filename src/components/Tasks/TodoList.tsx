@@ -21,7 +21,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { FetchTask } from "../../services/FetchTask";
 import { variables } from "@/lib/Types";
 import { updateStatus } from "@/services/Status";
-import useFetchTasks from "@/hooks/GetTasks";
+import useFetchTasks from "@/Hooks/GetTasks";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function TodoList() {

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { NewTask } from "@/lib/Types";
 import { updateTask } from "@/services/UpdateTask";
-import useFetchTasks from "@/hooks/GetTasks";
+import useFetchTasks from "@/Hooks/GetTasks";
 import { useToast } from "../ui/use-toast";
 
 interface ModalProps {
