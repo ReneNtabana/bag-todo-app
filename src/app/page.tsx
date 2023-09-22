@@ -1,7 +1,7 @@
 "use client";
 
-import AddTask from "../components/tasks/AddTask";
-import TodoList from "../components/tasks/TodoList";
+import AddTask from "../components/Tasks/AddTask";
+import TodoList from "../components/Tasks/TodoList";
 
 export default function Home() {
   return (

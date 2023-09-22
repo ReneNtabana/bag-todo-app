@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { createTask } from "@/services/CreateTask";
 import { NewTask } from "@/lib/Types";
-import useFetchTasks from "@/hooks/GetTasks";
+import useFetchTasks from "@/Hooks/GetTasks";
 import { useToast } from "@/components/ui/use-toast";
 
 

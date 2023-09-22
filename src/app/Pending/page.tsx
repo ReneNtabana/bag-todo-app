@@ -22,7 +22,7 @@ import { variables } from "@/lib/Types";
 import { pending } from "@/services/PendingTasks";
 import { updateStatus } from "@/services/Status";
 import { useToast } from "@/components/ui/use-toast";
-import usePendingTasks from "@/hooks/GetPendingTasks";
+import usePendingTasks from "@/Hooks/GetPendingTasks";
 
 export default function Pending() {
   const [taskId, setTaskId] = useState("");

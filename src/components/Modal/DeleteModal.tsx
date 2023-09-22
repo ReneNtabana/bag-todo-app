@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { RotatingLines } from "react-loader-spinner";
 import { useMutation } from "@tanstack/react-query";
 import { deleteTask } from "@/services/DeleteTasks";
-import useFetchTasks from "@/hooks/GetTasks";
+import useFetchTasks from "@/Hooks/GetTasks";
 import { useToast } from "@/components/ui/use-toast";
-import usePendingTasks from "@/hooks/GetPendingTasks";
-import useCompletedTasks from "@/hooks/GetCompletedTasks";
+import usePendingTasks from "@/Hooks/GetPendingTasks";
+import useCompletedTasks from "@/Hooks/GetCompletedTasks";
 
 interface DeleteModalProps {
   dialogOpen: boolean;

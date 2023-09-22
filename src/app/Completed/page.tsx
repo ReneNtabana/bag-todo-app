@@ -18,11 +18,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { completed } from "@/services/completedTasks";
+import { completed } from "@/services/CompletedTasks";
 import { variables } from "@/lib/Types";
 import { updateStatus } from "@/services/Status";
 import { useToast } from "@/components/ui/use-toast";
-import useCompletedTasks from "@/hooks/GetCompletedTasks";
+import useCompletedTasks from "@/Hooks/GetCompletedTasks";
 
 export default function Completed() {
   const [taskId, setTaskId] = useState("");
